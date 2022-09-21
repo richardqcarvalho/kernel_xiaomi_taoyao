@@ -36,6 +36,11 @@ struct device *create_function_device(char *name)
 EXPORT_SYMBOL_GPL(create_function_device);
 #endif
 
+#undef dev_dbg
+#undef pr_debug
+#define pr_debug pr_err
+#define dev_dbg dev_err
+
 int check_user_usb_string(const char *name,
 		struct usb_gadget_strings *stringtab_dev)
 {
@@ -143,6 +148,9 @@ struct gadget_config_name {
 };
 
 #define USB_MAX_STRING_WITH_NULL_LEN	(USB_MAX_STRING_LEN+1)
+// Ie81ca042c1c9187468339728f8d1066060fb8702
+// #define MAX_USB_STRING_LEN	126
+// #define MAX_USB_STRING_WITH_NULL_LEN	(MAX_USB_STRING_LEN+1)
 
 static int usb_string_copy(const char *s, char **s_copy)
 {
@@ -151,6 +159,8 @@ static int usb_string_copy(const char *s, char **s_copy)
 	char *copy = *s_copy;
 	ret = strlen(s);
 	if (ret > USB_MAX_STRING_LEN)
+	// Ie81ca042c1c9187468339728f8d1066060fb8702
+	// if (ret > MAX_USB_STRING_LEN)
 		return -EOVERFLOW;
 
 	if (copy) {
@@ -161,6 +171,13 @@ static int usb_string_copy(const char *s, char **s_copy)
 			return -ENOMEM;
 	}
 	strcpy(str, s);
+	// Ie81ca042c1c9187468339728f8d1066060fb8702
+	// 	str = kmalloc(MAX_USB_STRING_WITH_NULL_LEN, GFP_KERNEL);
+	// 	if (!str)
+	// 		return -ENOMEM;
+	// }
+	// strncpy(str, s, MAX_USB_STRING_WITH_NULL_LEN);
+
 	if (str[ret - 1] == '\n')
 		str[ret - 1] = '\0';
 	*s_copy = str;
@@ -1674,6 +1691,15 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
 	 */
 	acc_disconnect();
 #endif
+
+#ifdef CONFIG_USB_CONFIGFS_F_ACC
+	/*
+	 * accessory HID support can be active while the
+	 * accessory function is not actually enabled,
+	 * so we need to inform it when we are disconnected.
+	 */
+	acc_disconnect();
+#endif
 	gi = container_of(cdev, struct gadget_info, cdev);
 	spin_lock_irqsave(&gi->spinlock, flags);
 	cdev = get_gadget_data(gadget);
@@ -1682,11 +1708,13 @@ static void configfs_composite_disconnect(struct usb_gadget *gadget)
 		WARN(1, "%s: gadget driver already disconnected\n", __func__);
 		return;
 	}
+
 #ifdef CONFIG_USB_CONFIGFS_UEVENT
 	gi->connected = false;
 	if (!gi->unbinding)
 		schedule_work(&gi->work);
 #endif
+
 	composite_disconnect(gadget);
 	spin_unlock_irqrestore(&gi->spinlock, flags);
 }

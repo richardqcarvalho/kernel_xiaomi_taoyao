@@ -205,6 +205,10 @@ source "drivers/input/sensors/smi130/Kconfig"
 
 source "drivers/input/sensors/smi230/Kconfig"
 
+source "drivers/input/fingerprint/Kconfig"
+
+source "drivers/input/stmvl53l5/Kconfig"
+
 endif
 
 menu "Hardware I/O ports"
@@ -214,6 +218,7 @@ source "drivers/input/serio/Kconfig"
 source "drivers/input/gameport/Kconfig"
 
 endmenu
+
 
 endmenu
 

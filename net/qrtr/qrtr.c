@@ -26,6 +26,7 @@
 #include "bpf_service.h"
 #endif
 #define QRTR_LOG_PAGE_CNT 4
+
 #define QRTR_INFO(ctx, x, ...)				\
 	ipc_log_string(ctx, x, ##__VA_ARGS__)
 

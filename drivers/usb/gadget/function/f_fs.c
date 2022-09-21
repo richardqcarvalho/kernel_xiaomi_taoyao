@@ -3628,6 +3628,8 @@ static int ffs_func_set_alt(struct usb_function *f,
 	struct f_fs_opts *opts =
 		container_of(f->fi, struct f_fs_opts, func_inst);
 	int ret = 0, intf;
+	struct f_fs_opts *opts =
+		container_of(f->fi, struct f_fs_opts, func_inst);
 
 	ffs_log("enter: alt %d", (int)alt);
 
@@ -3671,7 +3673,6 @@ static int ffs_func_set_alt(struct usb_function *f,
 	}
 
 	ffs_log("exit: ret %d", ret);
-
 	return ret;
 }
 

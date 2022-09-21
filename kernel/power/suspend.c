@@ -617,6 +617,7 @@ static int enter_state(suspend_state_t state)
  * Check if the value of @state represents one of the supported states,
  * execute enter_state() and update system suspend statistics.
  */
+
 int pm_suspend(suspend_state_t state)
 {
 	int error;

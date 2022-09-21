@@ -3871,6 +3871,9 @@ static int __qseecom_send_cmd(struct qseecom_dev_handle *data,
 		} else {
 			send_data_req.req_ptr = (uint32_t)(uintptr_t)req->cmd_req_buf;
 			send_data_req.rsp_ptr = (uint32_t)(uintptr_t)req->resp_buf;
+			// Ie81ca042c1c9187468339728f8d1066060fb8702
+			// send_data_req.req_ptr = *((uint32_t *)(&req->cmd_req_buf));
+			// send_data_req.rsp_ptr = *((uint32_t *)(&req->resp_buf));
 		}
 
 		send_data_req.req_len = req->cmd_req_len;

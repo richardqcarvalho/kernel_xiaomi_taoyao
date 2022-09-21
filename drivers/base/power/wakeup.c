@@ -970,10 +970,20 @@ void pm_system_irq_wakeup(unsigned int irq_number)
 		else if (desc->action && desc->action->name)
 			name = desc->action->name;
 
+		// Ie81ca042c1c9187468339728f8d1066060fb8702
+		// if (pm_wakeup_irq == 0) {
+		// 	desc = irq_to_desc(irq_number);
+		// 	if (desc == NULL)
+		// 		name = "stray irq";
+		// 	else if (desc->action && desc->action->name)
+		// 		name = desc->action->name;
+
 		log_irq_wakeup_reason(irq_number);
 		pr_warn("%s: %d triggered %s\n", __func__,
 				irq_number, name);
 
+		// Ie81ca042c1c9187468339728f8d1066060fb8702
+		// pm_wakeup_irq = irq_number;
 		pm_system_wakeup();
 	}
 }
