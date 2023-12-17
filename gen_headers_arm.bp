@@ -995,7 +995,7 @@ gen_headers_out_arm = [
     "audio/sound/audio_slimslave.h",
 
     // Post-added:
-    "audio/sound/msm-cirrus-playback.h",
+    // "audio/sound/msm-cirrus-playback.h",
 
     "audio/sound/devdep_params.h",
     "audio/sound/lsm_params.h",
@@ -1012,10 +1012,7 @@ gen_headers_out_arm = [
     "camera/media/cam_icp.h",
     "camera/media/cam_isp.h",
     "camera/media/cam_isp_ife.h",
-
-    // Post-added:
     "camera/media/cam_isp_sfe.h",
-
     "camera/media/cam_isp_tfe.h",
     "camera/media/cam_isp_vfe.h",
     "camera/media/cam_jpeg.h",
@@ -1027,7 +1024,7 @@ gen_headers_out_arm = [
     "camera/media/cam_tfe.h",
 
     // Post-added:
-    "display/drm/mi_disp.h",
+    // "display/drm/mi_disp.h",
 
     "display/drm/msm_drm_pp.h",
     "display/drm/sde_drm.h",
@@ -1038,10 +1035,7 @@ gen_headers_out_arm = [
     "vidc/media/msm_vidc_utils.h",
     "linux/qbg.h",
     "linux/netfilter_ipv4/ipt_TRIGGER.h",
-
-    // Post-added:
     "audio/linux/msm_audio_ar.h",
-    
     "linux/eavb_shared.h",
     "linux/qbg-profile.h",
 ]
