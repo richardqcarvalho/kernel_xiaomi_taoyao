@@ -5,7 +5,7 @@ KERNEL_DEFCONFIG := vendor/taoyao-qgki-debug_defconfig
 endif
 
 SOURCE_ROOT := $(shell pwd)
-PREBUILTS_DIR := $(SOURCE_ROOT)/kernel/xiaomi/taoyao/build/prebuilts
+PREBUILTS_DIR := $(SOURCE_ROOT)/kernel-prebuilts
 DTC := $(PREBUILTS_DIR)/kernel-build-tools/linux-x86/bin/dtc
 UFDT_APPLY_OVERLAY := $(PREBUILTS_DIR)/kernel-build-tools/linux-x86/bin/ufdt_apply_overlay
 KERNEL_CROSS_COMPILE := $(PREBUILTS_DIR)/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
@@ -31,6 +31,7 @@ else
 CLANG_ARCH := arm-linux-gnueabi
 endif
 
+TARGET_KERNEL_MAKE_ENV += CC=$(PREBUILTS_DIR)/clang/host/linux-x86/clang-r383902b1/bin/clang
 TARGET_KERNEL_MAKE_ENV += REAL_CC=$(PREBUILTS_DIR)/clang/host/linux-x86/clang-r383902b1/bin/clang
 TARGET_KERNEL_MAKE_ENV += CLANG_TRIPLE=$(CLANG_ARCH)
 TARGET_KERNEL_MAKE_ENV += AR=$(PREBUILTS_DIR)/clang/host/linux-x86/clang-r383902b1/bin/llvm-ar
