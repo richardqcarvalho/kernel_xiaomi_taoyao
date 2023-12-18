@@ -3,11 +3,11 @@
 / {
 	#address-cells = <0x2>;
 	#size-cells = <0x2>;
-	compatible = "qcom,lahaina";
+	compatible = "qcom,lahainap";
 	interrupt-parent = <0x1>;
-	model = "Qualcomm Technologies, Inc. Lahaina V2.1 SoC";
+	model = "Qualcomm Technologies, Inc. LahianaP v2.1 SoC";
 	qcom,board-id = <0x0 0x0>;
-	qcom,msm-id = <0x19f 0x20001 0x1c8 0x20001 0x1f5 0x20001>;
+	qcom,msm-id = <0x1b7 0x20001 0x1f6 0x20001>;
 
 	__symbols__ {
 		BOB = "/soc/rsc@18200000/rpmh-regulator-bobc1/regulator-pm8350c-bob";
@@ -12773,6 +12773,7 @@
 			qcom,wan-use-skb-page;
 			reg = <0x1e00000 0x84000 0x1e04000 0x23000>;
 			reg-names = "ipa-base", "gsi-base";
+			status = "disabled";
 
 			ipa_smmu_11ad {
 				compatible = "qcom,ipa-smmu-11ad-cb";
