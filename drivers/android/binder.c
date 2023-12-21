@@ -809,8 +809,8 @@ static void binder_transaction_priority(struct binder_thread *thread,
 		// MIUI MOD:
 		// We boost some app process to FIFO, but binder out thread
 		// from fifo has low priority, so we modify priority higher.
-		// desired_prio.prio = NICE_TO_PRIO(0);
-		desired_prio.prio = NICE_TO_PRIO(-10);
+		// desired.prio = NICE_TO_PRIO(0);
+		desired.prio = NICE_TO_PRIO(-10);
 		desired.sched_policy = SCHED_NORMAL;
 	}
 

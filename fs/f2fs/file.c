@@ -3560,11 +3560,11 @@ static int f2fs_release_compress_blocks(struct file *filp, unsigned long arg)
 	if (!atomic_read(&F2FS_I(inode)->i_compr_blocks))
 		goto out;
 
-	down_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
-	down_write(&F2FS_I(inode)->i_mmap_sem);
+	// down_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
+	// down_write(&F2FS_I(inode)->i_mmap_sem);
 	// Ie81ca042c1c9187468339728f8d1066060fb8702
-	// f2fs_down_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
-	// f2fs_down_write(&F2FS_I(inode)->i_mmap_sem);
+	f2fs_down_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
+	f2fs_down_write(&F2FS_I(inode)->i_mmap_sem);
 
 	last_idx = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
 

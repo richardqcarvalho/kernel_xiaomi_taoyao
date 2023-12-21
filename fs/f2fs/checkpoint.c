@@ -1160,7 +1160,7 @@ static bool __need_flush_quota(struct f2fs_sb_info *sbi)
 	if (!is_journalled_quota(sbi))
 		return false;
 
-	if (!down_write_trylock(&sbi->quota_sem))
+	if (!f2fs_down_write_trylock(&sbi->quota_sem))
 		return true;
 	// Ie81ca042c1c9187468339728f8d1066060fb8702
 	// f2fs_down_write(&sbi->quota_sem);

@@ -1153,15 +1153,17 @@ next_step:
 			int err;
 
 			if (S_ISREG(inode->i_mode)) {
-				if (!down_write_trylock(&fi->i_gc_rwsem[READ])) {
+				// if (!down_write_trylock(&fi->i_gc_rwsem[READ])) {
+				// 	sbi->skipped_gc_rwsem++;
+				// 	continue;
+				// }
+				// if (!down_write_trylock(
+				// Ie81ca042c1c9187468339728f8d1066060fb8702
+				if (!f2fs_down_write_trylock(&fi->i_gc_rwsem[READ])) {
 					sbi->skipped_gc_rwsem++;
 					continue;
 				}
-				if (!down_write_trylock(
-				// Ie81ca042c1c9187468339728f8d1066060fb8702
-				// if (!f2fs_down_write_trylock(&fi->i_gc_rwsem[READ]))
-				// 	continue;
-				// if (!f2fs_down_write_trylock(
+				if (!f2fs_down_write_trylock(
 						&fi->i_gc_rwsem[WRITE])) {
 					sbi->skipped_gc_rwsem++;
 					f2fs_up_write(&fi->i_gc_rwsem[READ]);

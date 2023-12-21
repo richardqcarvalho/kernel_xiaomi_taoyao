@@ -1,13 +1,13 @@
-BRANCH=android11-5.4
+BRANCH=5.4
 KMI_GENERATION=2
 
 CC=clang
 LD=ld.lld
 NM=llvm-nm
 OBJCOPY=llvm-objcopy
-CLANG_PREBUILT_BIN=prebuilts/clang/host/linux-x86/clang-r450784e/bin
+CLANG_PREBUILT_BIN=prebuilts/clang/kernel/linux-86/clang-r416183b/bin
 DEPMOD=depmod
-BUILDTOOLS_PREBUILT_BIN=build/build-tools/path/linux-x86
+BUILDTOOLS_PREBUILT_BIN=.prebuilts/build-tools/path/linux-x86
 
 KCFLAGS="${KCFLAGS} -D__ANDROID_COMMON_KERNEL__"
 STOP_SHIP_TRACEPRINTK=1

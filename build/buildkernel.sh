@@ -80,8 +80,8 @@ build_kernel()
 	echo "======================"
 	echo "Building kernel"
 	set -x
-	if [ -f "${ROOT_DIR}/kernel-prebuilts/build-tools/linux-x86/bin/toybox" ]; then
-		NCORES=$(${ROOT_DIR}/kernel-prebuilts/build-tools/linux-x86/bin/toybox nproc)
+	if [ -f "${ROOT_DIR}/prebuilts/build-tools/linux-x86/bin/toybox" ]; then
+		NCORES=$(${ROOT_DIR}/prebuilts/build-tools/linux-x86/bin/toybox nproc)
 	else
 		NCORES=8
 	fi

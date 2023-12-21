@@ -4788,8 +4788,10 @@ exit_geni_serial_probe:
 
 static int msm_geni_serial_remove(struct platform_device *pdev)
 {
-	struct msm_geni_serial_port *port;
-	struct uart_driver *drv;
+	struct msm_geni_serial_port *port = platform_get_drvdata(pdev);
+	struct uart_driver *drv =
+			(struct uart_driver *)port->uport.private_data;
+
 #ifdef CONFIG_FASTBOOT_CMD_CTRL_UART
 	const struct of_device_id *id = of_match_device(msm_geni_device_tbl,
 			&pdev->dev);
@@ -4799,21 +4801,17 @@ static int msm_geni_serial_remove(struct platform_device *pdev)
 		return -ENODEV;
 	}
 	dev_dbg(&pdev->dev, "%s: %s\n", __func__, id->compatible);
+// Ie81ca042c1c9187468339728f8d1066060fb8702
+	/*if earlycon is not enabled, we should ignore console
+	  driver prob*/
+	if (!is_early_cons_enabled &&
+		(!strcmp(id->compatible, "qcom,msm-geni-console"))) {
+		pr_info("ignore cons remove\n");
+		return 0;
+	}
+#endif
 
 	if (!uart_console(&port->uport) || port->console_rx_wakeup) {
-// Ie81ca042c1c9187468339728f8d1066060fb8702
-// 	/*if earlycon is not enabled, we should ignore console
-// 	  driver prob*/
-// 	if (!is_early_cons_enabled &&
-// 		(!strcmp(id->compatible, "qcom,msm-geni-console"))) {
-// 		pr_info("ignore cons remove\n");
-// 		return 0;
-// 	}
-// #endif
-
-// 	port = platform_get_drvdata(pdev);
-// 	drv = (struct uart_driver *)port->uport.private_data;
-// 	if (!uart_console(&port->uport))
 		wakeup_source_unregister(port->geni_wake);
 		port->geni_wake = NULL;
 	}

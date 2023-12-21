@@ -1075,9 +1075,9 @@ static struct inode *f2fs_alloc_inode(struct super_block *sb)
 	/* Initialize f2fs-specific inode info */
 	atomic_set(&fi->dirty_pages, 0);
 	atomic_set(&fi->i_compr_blocks, 0);
-	init_rwsem(&fi->i_sem);
+	// init_rwsem(&fi->i_sem);
 	// Ie81ca042c1c9187468339728f8d1066060fb8702
-	// init_f2fs_rwsem(&fi->i_sem);
+	init_f2fs_rwsem(&fi->i_sem);
 	spin_lock_init(&fi->i_size_lock);
 	INIT_LIST_HEAD(&fi->dirty_list);
 	INIT_LIST_HEAD(&fi->gdirty_list);
@@ -1829,12 +1829,12 @@ static void f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
 	if (unlikely(retry < 0))
 		f2fs_warn(sbi, "checkpoint=enable has some unwritten data.");
 
-	down_write(&sbi->gc_lock);
+	// down_write(&sbi->gc_lock);
 	// Ie81ca042c1c9187468339728f8d1066060fb8702
 	// /* we should flush all the data to keep data consistency */
 	// sync_inodes_sb(sbi->sb);
 
-	// f2fs_down_write(&sbi->gc_lock);
+	f2fs_down_write(&sbi->gc_lock);
 	f2fs_dirty_to_prefree(sbi);
 
 	clear_sbi_flag(sbi, SBI_CP_DISABLED);
@@ -2352,11 +2352,11 @@ int f2fs_quota_sync(struct super_block *sb, int type)
 		 *			      down_read(quota_sem)
 		 */
 		f2fs_lock_op(sbi);
-		down_read(&sbi->quota_sem);
+		f2fs_down_read(&sbi->quota_sem);
 
 		ret = f2fs_quota_sync_file(sbi, cnt);
 
-		up_read(&sbi->quota_sem);
+		f2fs_up_read(&sbi->quota_sem);
 		f2fs_unlock_op(sbi);
 
 		if (!f2fs_sb_has_quota_ino(sbi))
