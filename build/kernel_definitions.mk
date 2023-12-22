@@ -13,25 +13,21 @@ ifeq ($(TARGET_KERNEL_SOURCE),)
      TARGET_KERNEL_SOURCE := kernel/$(TARGET_KERNEL)
 endif
 
-DTC := .prebuilts/kernel-build-tools/linux-x86/bin/dtc
-UFDT_APPLY_OVERLAY := .prebuilts/kernel-build-tools/linux-x86/bin/ufdt_apply_overlay
+DTC := prebuilts/kernel-build-tools/linux-x86/bin/dtc
+UFDT_APPLY_OVERLAY := prebuilts/kernel-build-tools/linux-x86/bin/ufdt_apply_overlay
 
 SOURCE_ROOT := $(shell pwd)
 TARGET_KERNEL_MAKE_ENV := DTC_EXT=$(SOURCE_ROOT)/$(DTC)
 TARGET_KERNEL_MAKE_ENV += DTC_OVERLAY_TEST_EXT=$(SOURCE_ROOT)/$(UFDT_APPLY_OVERLAY)
 TARGET_KERNEL_MAKE_ENV += CONFIG_BUILD_ARM64_DT_OVERLAY=y
-TARGET_KERNEL_MAKE_ENV += HOSTCC=$(SOURCE_ROOT)/.prebuilts/clang/host/linux-x86/clang-r383902b1/bin/clang
-TARGET_KERNEL_MAKE_ENV += HOSTAR=$(SOURCE_ROOT)/.prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ar
-TARGET_KERNEL_MAKE_ENV += HOSTLD=$(SOURCE_ROOT)/.prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ld
-TARGET_KERNEL_MAKE_ENV += M4=$(SOURCE_ROOT)/.prebuilts/build-tools/linux-x86/bin/m4
-TARGET_KERNEL_MAKE_ENV += LEX=$(SOURCE_ROOT)/.prebuilts/build-tools/linux-x86/bin/flex
-TARGET_KERNEL_MAKE_ENV += YACC=$(SOURCE_ROOT)/.prebuilts/build-tools/linux-x86/bin/bison
-TARGET_KERNEL_MAKE_ENV += XZ=$(SOURCE_ROOT)/.prebuilts/build-tools/linux-x86/bin/xz
-
-TARGET_KERNEL_MAKE_ENV += DEPMOD=$(SOURCE_ROOT)/.prebuilts/kernel-build-tools/linux-x86/bin/depmod
-# TARGET_KERNEL_MAKE_ENV += PERL=$(SOURCE_ROOT)/.prebuilts/tools-custom/linux-x86/bin/perl
-
-TARGET_KERNEL_MAKE_CFLAGS = "-I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include/uapi -I/usr/include -I/usr/include/x86_64-linux-gnu -I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include -L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld -D__ANDROID_COMMON_KERNEL__"
+TARGET_KERNEL_MAKE_ENV += HOSTCC=$(SOURCE_ROOT)/prebuilts/clang/kernel/linux-x86/clang-r416183b/bin/clang
+TARGET_KERNEL_MAKE_ENV += HOSTAR=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ar
+TARGET_KERNEL_MAKE_ENV += HOSTLD=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ld
+TARGET_KERNEL_MAKE_ENV += M4=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/m4
+TARGET_KERNEL_MAKE_ENV += LEX=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/flex
+TARGET_KERNEL_MAKE_ENV += YACC=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/bison
+TARGET_KERNEL_MAKE_ENV += DEPMOD=$(SOURCE_ROOT)/prebuilts/kernel-build-tools/linux-x86/bin/depmod
+TARGET_KERNEL_MAKE_CFLAGS = "-I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include/uapi -I/usr/include -I/usr/include/x86_64-linux-gnu -I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include -L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld -D__ANDROID_COMMON_KERNEL__ -fPIC"
 TARGET_KERNEL_MAKE_LDFLAGS = "-L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld"
 
 BUILD_CONFIG_VARS += ABI_DEFINITION=android/abi_gki_aarch64.xml
@@ -46,10 +42,9 @@ BUILD_CONFIG_VARS += STOP_SHIP_TRACEPRINTK=1
 BUILD_CONFIG_VARS += IN_KERNEL_MODULES=1
 BUILD_CONFIG_VARS += DO_NOT_STRIP_MODULES=1
 BUILD_CONFIG_VARS += V=0
-BUILD_CONFIG_VARS += TEMPORARY_DISABLE_PATH_RESTRICTIONS=true
 
-KERNEL_LLVM_BIN := $(SOURCE_ROOT)/.prebuilts/clang/host/linux-x86/clang-r383902b1/bin/clang
-KERNEL_AOSP_LLVM_BIN := $(SOURCE_ROOT)/.prebuilts/clang/host/linux-x86/clang-r383902b1/bin
+KERNEL_LLVM_BIN := $(SOURCE_ROOT)/prebuilts/clang/kernel/linux-x86/clang-r416183b/bin/clang
+KERNEL_AOSP_LLVM_BIN := $(SOURCE_ROOT)/prebuilts/clang/kernel/linux-x86/clang-r416183b/bin
 KERNEL_AOSP_LLVM_CLANG := $(KERNEL_AOSP_LLVM_BIN)/clang
 USE_KERNEL_AOSP_LLVM := $(shell test -f "$(KERNEL_AOSP_LLVM_CLANG)" && echo "true" || echo "false")
 
@@ -81,7 +76,7 @@ KERNEL_CONFIG_OVERRIDE := CONFIG_ANDROID_BINDER_IPC_32BIT=y
 endif
 endif
 
-KERNEL_CROSS_COMPILE := $(SOURCE_ROOT)/.prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+KERNEL_CROSS_COMPILE := $(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
@@ -134,7 +129,7 @@ KERNEL_CONFIG := $(KERNEL_OUT)/.config
 # Move MAKE_PATH here (cut from below), so that it's defined before first use.
 # Without this the build fails due to android build system path tool
 # restrictions.
-MAKE_PATH := $(SOURCE_ROOT)/.prebuilts/build-tools/linux-x86/bin/
+MAKE_PATH := $(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/
 
 ifeq ($(KERNEL_DEFCONFIG)$(wildcard $(KERNEL_CONFIG)),)
 $(error Kernel configuration not defined, cannot build kernel)
