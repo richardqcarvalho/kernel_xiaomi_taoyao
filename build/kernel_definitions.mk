@@ -21,8 +21,8 @@ TARGET_KERNEL_MAKE_ENV := DTC_EXT=$(SOURCE_ROOT)/$(DTC)
 TARGET_KERNEL_MAKE_ENV += DTC_OVERLAY_TEST_EXT=$(SOURCE_ROOT)/$(UFDT_APPLY_OVERLAY)
 TARGET_KERNEL_MAKE_ENV += CONFIG_BUILD_ARM64_DT_OVERLAY=y
 TARGET_KERNEL_MAKE_ENV += HOSTCC=$(SOURCE_ROOT)/prebuilts/clang/kernel/linux-x86/clang-r416183b/bin/clang
-TARGET_KERNEL_MAKE_ENV += HOSTAR=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ar
-TARGET_KERNEL_MAKE_ENV += HOSTLD=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-ld
+TARGET_KERNEL_MAKE_ENV += HOSTAR=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/bin/x86_64-linux-android-ar
+TARGET_KERNEL_MAKE_ENV += HOSTLD=$(SOURCE_ROOT)/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/bin/x86_64-linux-android-ld
 TARGET_KERNEL_MAKE_ENV += M4=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/m4
 TARGET_KERNEL_MAKE_ENV += LEX=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/flex
 TARGET_KERNEL_MAKE_ENV += YACC=$(SOURCE_ROOT)/prebuilts/build-tools/linux-x86/bin/bison
@@ -30,9 +30,31 @@ TARGET_KERNEL_MAKE_ENV += DEPMOD=$(SOURCE_ROOT)/prebuilts/kernel-build-tools/lin
 TARGET_KERNEL_MAKE_CFLAGS = "-I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include/uapi -I/usr/include -I/usr/include/x86_64-linux-gnu -I$(SOURCE_ROOT)/$(TARGET_KERNEL_SOURCE)/include -L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld -D__ANDROID_COMMON_KERNEL__ -fPIC"
 TARGET_KERNEL_MAKE_LDFLAGS = "-L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld"
 
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_cuttlefish
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_db845c
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_exynos
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_exynosauto
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_fcnt
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_galaxy
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_goldfish
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_hikey960
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_imx
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_oneplus
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_microsoft
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_oplus
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_qcom
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_sony
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_sonywalkman
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_sunxi
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_unisoc
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_vivo
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_xiaomi
+ADDITIONAL_KMI_SYMBOL_LISTS += android/abi_gki_aarch64_zebra
+
 BUILD_CONFIG_VARS += ABI_DEFINITION=android/abi_gki_aarch64.xml
 BUILD_CONFIG_VARS += KMI_SYMBOL_LIST=android/abi_gki_aarch64
-BUILD_CONFIG_VARS += ADDITIONAL_KMI_SYMBOL_LISTS="android/abi_gki_aarch64_xiaomi"
+BUILD_CONFIG_VARS += BRANCH=target/product/taoyao/obj/kernel/5.4
+BUILD_CONFIG_VARS += ADDITIONAL_KMI_SYMBOL_LISTS=$(ADDITIONAL_KMI_SYMBOL_LISTS)
 BUILD_CONFIG_VARS += TRIM_NONLISTED_KMI=1
 BUILD_CONFIG_VARS += KMI_SYMBOL_LIST_ADD_ONLY=1
 BUILD_CONFIG_VARS += KMI_SYMBOL_LIST_STRICT_MODE=1
@@ -76,7 +98,7 @@ KERNEL_CONFIG_OVERRIDE := CONFIG_ANDROID_BINDER_IPC_32BIT=y
 endif
 endif
 
-KERNEL_CROSS_COMPILE := $(SOURCE_ROOT)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+KERNEL_CROSS_COMPILE := $(SOURCE_ROOT)/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/bin/x86_64-linux-android-
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
@@ -261,7 +283,7 @@ define build-kernel
 	KERNEL_DIR=$(TARGET_KERNEL_SOURCE) \
 	DEFCONFIG=$(1) \
 	OUT_DIR=$(2) \
-	MAKE_PATH=$(MAKE_PATH)\
+	MAKE_PATH=$(MAKE_PATH) \
 	ARCH=$(KERNEL_ARCH) \
 	CROSS_COMPILE=$(KERNEL_CROSS_COMPILE) \
 	KERNEL_MODULES_OUT=$(3) \
