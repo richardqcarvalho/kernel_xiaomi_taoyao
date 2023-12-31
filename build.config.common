@@ -5,7 +5,7 @@ CC=clang
 LD=ld.lld
 NM=llvm-nm
 OBJCOPY=llvm-objcopy
-CLANG_PREBUILT_BIN=prebuilts/clang/host/linux-x86/clang-r487747c/bin
+CLANG_PREBUILT_BIN=prebuilts/clang/host/linux-x86/clang-r450784e/bin
 DEPMOD=depmod
 BUILDTOOLS_PREBUILT_BIN=prebuilts/build-tools/path/linux-x86
 
